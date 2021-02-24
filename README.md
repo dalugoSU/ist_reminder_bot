@@ -18,3 +18,7 @@ When you select:
 #### Do you have one webhook you would like to use always?
 
 If you want to use the same webhook everytime in case you would like to push open the main.py file and inside begin_collection() paste in your webhook inside quotes and save. Now everytime you select to push to microsoft teams it will use that webhook.
+
+
+
+#### Feel free to play around with the code and change it!
