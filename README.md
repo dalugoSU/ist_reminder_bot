@@ -7,7 +7,7 @@ Dependencies needed:
 - pymsteams
 
 If you are missing any of these you can install by typing:
-pip install <module name>
+pip install -module name-
 
 
 Steps to run program:
