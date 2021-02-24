@@ -11,8 +11,8 @@ When you select:
 -yes
   * Assignments due "today" will be displayed. If there are no assignments -1 will be returned
   * You will be prompted if you want to push to Microsoft Teams:
-    - If yes:
-    * You will paste in your webhook in there and press enter
+    - You should type in 'no'
+
 
 ####For TAs and Professors:
 #### Do you have one webhook you would like to use always?
