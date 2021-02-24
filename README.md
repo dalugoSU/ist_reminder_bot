@@ -1,5 +1,15 @@
 ### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams!
 
+Dependencies needed:
+- bs4
+- datetime
+- requests
+- pymsteams
+
+If you are missing any of these you can install by typing:
+pip install <module name>
+
+
 Steps to run program:
 - Download zip file and extract folder
 - Open folder in command prompt
