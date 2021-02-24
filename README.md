@@ -19,6 +19,13 @@ When you select:
 
 If you want to use the same webhook everytime in case you would like to push open the main.py file and inside begin_collection() paste in your webhook inside quotes and save. Now everytime you select to push to microsoft teams it will use that webhook.
 
+### How to get a webhook:
+1) Go to the teams you would like to push these assignments to
+2) At the top right you will see three dots ***
+3) Click the three dots and click connectors
+4) In the new Screen add/configure "incoming connectors"
+5) Once confifured, you will see a link at the bottom of the box, copy this link and save it. That is your webhook for that MS Teams
+
 
 
 #### Feel free to play around with the code and change it!
