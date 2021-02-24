@@ -5,7 +5,7 @@ Steps to run program:
 - Open folder in command prompt
 - Type: python main.py
 
-####For Students:
+### For Students:
 #### The program will ask you if you want to see today's assignments:
 When you select:
 -yes
@@ -14,7 +14,7 @@ When you select:
     - You should type in 'no'
 
 
-####For TAs and Professors:
+### For TAs and Professors:
 #### Do you have one webhook you would like to use always?
 
 If you want to use the same webhook everytime in case you would like to push open the main.py file and inside begin_collection() paste in your webhook inside quotes and save. Now everytime you select to push to microsoft teams it will use that webhook.
