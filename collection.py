@@ -13,13 +13,11 @@ class AssignmentCollector:
         response = self.requests.get("http://ist256.com/syllabus/#course-schedule")  # Pulls website
         soup = self.BeautifulSoup(response.content, 'html.parser')  # Parses website and extracts its contents
 
-        assignments_table = soup.find(text='Date Due').find_parent(
-            'table')  # Finds the due date table by matching its text with table tag
+        assignments_table = soup.find(text='Date Due').find_parent('table')  # Finds the due date table by matching its text with table tag
         assignments = []  # List that will hold lists of assignments
 
         for table_row in assignments_table.find_all("tr")[1:]:
-            assignments.append(
-                [text.get_text(strip=True) for text in table_row.find_all("td")])  # Create a list for each row
+            assignments.append([text.get_text(strip=True) for text in table_row.find_all("td")])  # Create a list for each row
 
         return assignments  # Return 2D array of assignments and due dates
 
