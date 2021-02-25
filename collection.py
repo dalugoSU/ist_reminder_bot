@@ -35,7 +35,7 @@ class AssignmentCollector:
     def get_assignment(self):
         """
         Get the assignment due today if there is any
-        :return: list of today's assignments. Return -1 if no assignments for today
+        :return: list of today's assignments.
         """
 
         table_titles = ["Due Date:", "Due Time:", "Grade Book:", "Points:", "Tools:", "What is Due:"]  # Column titles
@@ -49,7 +49,7 @@ class AssignmentCollector:
                     today_assignment.append(f"{table_titles[row_element]} {table[row][row_element]}")
 
         if not today_assignment:
-            return -1  # There are no assignments for "today"
+            return ['No Assignments']  # There are no assignments for "today"
         else:
             return today_assignment
 
