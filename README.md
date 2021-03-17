@@ -1,5 +1,7 @@
 ### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams!
 
+Latest update: 3/16/21
+
 Dependencies needed:
 - bs4
 - datetime
