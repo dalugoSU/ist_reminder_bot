@@ -55,7 +55,7 @@ class AssignmentCollector:
         else:
             return today_assignment
 
-    def push_to_ms(self, webhook: str):
+    def push_to_ms(self, webhook: str, card_title: str = None):
         """
         function to push today's assignments to an MS teams Team.
         :return: Void/No returns
@@ -64,7 +64,10 @@ class AssignmentCollector:
         today_to_do = self.get_assignment()
         message = ""
 
-        connection.title("IMPORTANT - ASSIGNMENT REMINDER!")
+        if card_title:
+            connection.title(card_title)
+        else:
+            connection.title("IMPORTANT - ASSIGNMENT REMINDER!")
 
         for element in range(0, len(today_to_do)):
             if "Due Date:" in today_to_do[element]:
@@ -76,3 +79,11 @@ class AssignmentCollector:
         connection.send()
 
         print("Your Reminder Has Been Posted")
+
+    def push_email(self):
+        # TODO: implement this and update main function
+        pass
+
+    def push_text(self):
+        # TODO: implement this and update main function
+        pass
