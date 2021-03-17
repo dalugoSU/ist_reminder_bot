@@ -5,6 +5,7 @@ Dependencies needed:
 - datetime
 - requests
 - pymsteams
+- pyfiglet
 
 If you are missing any of these you can install by typing:
 pip install -module name-
