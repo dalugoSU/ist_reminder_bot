@@ -13,6 +13,9 @@ If you are missing any of these you can install by typing:
 pip install -module name-
 
 
+Command Look:
+![Alt text](ist_reminds.jpg?raw=true "Example Command")
+
 Steps to run program:
 - Download zip file and extract folder
 - Open folder in command prompt
