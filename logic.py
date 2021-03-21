@@ -1,3 +1,7 @@
+# Functions to use in main program
+# TODO: Check if there are assignments the next day
+# TODO: "Add Reminder," capabilities for student UI
+
 import requests
 
 global due_assignment
@@ -5,6 +9,8 @@ global due_assignment
 
 # Quick homework print function
 def print_hw(due_assignment):
+    # TODO: Implement this inside the AssignmentCollector class
+    # TODO: Add "next day," reminder notification
     due_today = due_assignment.get_assignment()  # Assignments due "today"
     print("")
 
