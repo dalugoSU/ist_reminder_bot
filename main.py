@@ -1,4 +1,39 @@
-from logic import begin_collection
+from logic import student_ui, prof_ta_ui
+from pyfiglet import Figlet
+from collection import AssignmentCollector
+import webhook as wh
+
+global due_assignment
 
 if __name__ == "__main__":
-    begin_collection("https://sumailsyr.webhook.office.com/webhookb2/42c97b32-9e61-4f27-ae06-66dad5a96dda@4278a402-1a9e-4eb9-8414-ffb55a5fcf1e/IncomingWebhook/b70cefb358b44588bf45b10fa35439c2/8a0354d2-5d30-4b1d-9306-d463720e8fcd")  # Paste Your Webhook inside function, in quotes, if you would like to use the same one everytime
+    def begin_collection(ms_webhook: str = None) -> None:  # ms_webhook = None in case you do not have one saved in webhook.py
+        global due_assignment
+
+        due_assignment = AssignmentCollector()  # Create instance of Assignment Collector Class
+
+        banner = Figlet(font='slant')
+        print(banner.renderText("IST 256 Reminders"))
+        print("Application will gather IST 256 Assignments. For Professors/TAs, you can Push these to MS Teams")
+        ui_selection = input("Are you a student or Professor/TA [s: student; p: professor/TA]:  ")
+
+        while True:
+            if ui_selection.lower() == "s":
+                try:
+                    user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
+                    student_ui(user_choice=user_choice, due_assignment=due_assignment)
+                    break
+                except TypeError:
+                    print("Enter yes or quit to exit")
+            elif ui_selection.lower() == "p":
+                try:
+                    print("\nIf you have an MS Webhook to use every time, save it in webhook.py")
+                    user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
+                    prof_ta_ui(user_choice=user_choice, due_assignment=due_assignment, ms_webhook=ms_webhook)
+                    break
+                except TypeError:
+                    print("Enter yes or quit to exit")
+            else:
+                print("Invalid command! [s or p]: ")
+                ui_selection = input("Are you a student or Professor/TA [s: student; p: professor/TA]:  ")
+
+    begin_collection(ms_webhook=wh.WEBHOOK) # Go to webhook.py to save your webhook

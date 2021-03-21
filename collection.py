@@ -78,7 +78,7 @@ class AssignmentCollector:
         connection.text(message)
         connection.send()
 
-        print("Your Reminder Has Been Posted")
+        print("Your Reminder Has Been Posted :D")
 
     def push_email(self):
         # TODO: implement this and update main function
