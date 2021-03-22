@@ -14,7 +14,7 @@ pip install -module name-
 
 
 Command Look:
-![Alt text](ist_reminds.JPG?raw=true "Example Command")
+![Alt text](cli_example.JPG?raw=true "Example Command")
 
 Steps to run program:
 - Download zip file and extract folder
