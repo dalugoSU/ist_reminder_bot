@@ -47,10 +47,14 @@ Example of reminder card pushed to Microsoft Teams after pushing reminder:
 
 #### Send Reminder as an Email!
 
+You may also send your reminder by email to all of your students at once!
+
 Example of email sent by bot:
+
 ![Alt text](email_example.JPG?raw=true "Example email")
 
-### How to set emailing up:
+
+#### How to set emailing up:
 1) Go to your Google Account.
 2) Select Security.
 3) Under "Signing in to Google," select App Passwords. You may need to sign in. If you don’t have this option, it might be because:
