@@ -19,16 +19,14 @@ if __name__ == "__main__":
         while True:
             if ui_selection.lower() == "s":
                 try:
-                    user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
-                    student_ui(user_choice=user_choice, due_assignment=due_assignment)
+                    student_ui(student_obj=due_assignment)
                     break
                 except TypeError:
                     print("Enter yes or quit to exit")
             elif ui_selection.lower() == "p":
                 try:
                     print("\nIf you have an MS Webhook to use every time, save it in webhook.py")
-                    user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
-                    prof_ta_ui(user_choice=user_choice, due_assignment=due_assignment, ms_webhook=ms_webhook)
+                    prof_ta_ui(p_obj=due_assignment, ms_webhook=ms_webhook)
                     break
                 except TypeError:
                     print("Enter yes or quit to exit")
