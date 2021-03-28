@@ -48,7 +48,7 @@ Example of reminder card pushed to Microsoft Teams after pushing reminder:
 #### Send Reminder as an Email!
 
 Example of email sent by bot:
-![Alt text](Email Example.JPG?raw=true "Example email")
+![Alt text](email_example.JPG?raw=true "Example email")
 
 ### How to set emailing up:
 1) Go to your Google Account.
