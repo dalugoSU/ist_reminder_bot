@@ -1,21 +1,10 @@
 # Functions to use in main program
-# TODO: Check if there are assignments the next day
 # TODO: "Add Reminder," capabilities for student UI
 
 import requests
+import smtplib
 
 global due_assignment
-
-
-# Quick homework print function
-def print_hw(due_assignment):
-    # TODO: Implement this inside the AssignmentCollector class
-    # TODO: Add "next day," reminder notification
-    due_today = due_assignment.get_assignment()  # Assignments due "today"
-    print("")
-
-    for item in range(0, len(due_today)):
-        print(due_today[item])
 
 
 # If webhook is saved, this function executes
@@ -36,7 +25,7 @@ def webhook_present(ms_webhook, due_assignment):
 
 
 # Function to handle pushing to MS if webhook is not saved
-def webhook_not_present(due_assignment):
+def webhook_not_present(webhook_obj):
     valid = False
     while not valid:
         ms_webhook = input("Enter MS Teams webhook: ")
@@ -46,9 +35,9 @@ def webhook_not_present(due_assignment):
         try:
             card_title = input("Card Title [enter no for default]: ")
             if card_title.lower() == "no":
-                due_assignment.push_to_ms(webhook=ms_webhook)
+                webhook_obj.push_to_ms(webhook=ms_webhook)
             else:
-                due_assignment.push_to_ms(webhook=ms_webhook, card_title=card_title)
+                webhook_obj.push_to_ms(webhook=ms_webhook, card_title=card_title)
             valid = True
         except requests.exceptions.MissingSchema as e:
             print("Invalid Webhook!")
@@ -56,42 +45,61 @@ def webhook_not_present(due_assignment):
 
 
 # If student is using app, capabilities to push to MS etc.. are not used.
-def student_ui(user_choice, due_assignment):
+def student_ui(student_obj: object) -> None:
+    user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
+    if user_choice.lower() == "quit":
+        print("See you later! ")
     if user_choice.lower() == "yes":
-        print_hw(due_assignment)
-        print("\nSee you later! ")
+        student_obj.print_assignments()
     else:
         print("See you later! ")
 
 
 # If professor/TA using app, all capabilities unlocked
-def prof_ta_ui(user_choice, due_assignment, ms_webhook=None):
+def prof_ta_ui(p_obj, ms_webhook=None):
+    user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
     while True:
         if user_choice == 'quit':
             break
         if user_choice.lower() == "yes":
-            print_hw(due_assignment)  # Function prints HW due "today"
+            p_obj.print_assignments()  # Function prints HW due "today"
 
             push = input("\nWould you like to push assignments to teams [yes or no]: ")
             if push.lower() == 'yes':
                 if ms_webhook:
-                    webhook_present(due_assignment=due_assignment, ms_webhook=ms_webhook)
+                    webhook_present(due_assignment=p_obj, ms_webhook=ms_webhook)
                 else:
-                    webhook_not_present(due_assignment=due_assignment)
+                    webhook_not_present(webhook_obj=p_obj)
                 break
             else:
-                print("See you later!")
                 break
         elif user_choice == 'no':
-            print("See ya later!")
-            break
+            push = input("\nWould you like to push assignments to teams [yes or no]: ")
+            if push.lower() == 'yes':
+                if ms_webhook:
+                    webhook_present(due_assignment=p_obj, ms_webhook=ms_webhook)
+                else:
+                    webhook_not_present(webhook_obj=p_obj)
+                break
+            else:
+                break
         else:
             push = input("Would you like to push assignments to teams [yes or no]: ")
             if push.lower() == 'yes':
                 if ms_webhook:
                     webhook_present(ms_webhook=ms_webhook)
                 else:
-                    webhook_not_present(due_assignment=due_assignment)
+                    webhook_not_present(webhook_obj=p_obj)
             else:
-                print("See you later!")
                 break
+
+    email_push = input("Would you like to push reminders to email? [yes or no]: ")
+
+    if email_push.lower() == 'yes':
+        try:
+            p_obj.push_email()
+            print("See you later! ")
+        except smtplib.SMTPAuthenticationError:
+            print("Email not sent successfully :( \nCheck email credentials!")
+    else:
+        print("\nSee you later! ")
