@@ -1,6 +1,6 @@
-### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams!
+### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams and push to emails as well!
 
-Latest update: 3/21/21
+Latest update: 3/28/21
 
 Dependencies needed:
 - bs4
@@ -45,6 +45,28 @@ Example of reminder card pushed to Microsoft Teams after pushing reminder:
 4) In the new Screen add/configure "incoming connectors"
 5) Once confifured, you will see a link at the bottom of the box, copy this link and save it. That is your webhook for that MS Teams
 
+#### Send Reminder as an Email!
 
+Example of email sent by bot:
+![Alt text](Email Example.JPG?raw=true "Example email")
+
+### How to set emailing up:
+1) Go to your Google Account.
+2) Select Security.
+3) Under "Signing in to Google," select App Passwords. You may need to sign in. If you don’t have this option, it might be because:
+- 2-Step Verification is not set up for your account.
+- 2-Step Verification is only set up for security keys.
+- Your account is through work, school, or other organization.
+- You turned on Advanced Protection.
+4) At the bottom, choose Select app and choose the app you using and then Select device and choose the device you’re using and then Generate.
+5) Follow the instructions to enter the App Password. The App Password is the 16-character code in the yellow bar on your device.
+6) Tap Done.
+
+If you are all Professors/TAs for IST 256 you can all share one single bot email to use, or you may use your personal emails.
+
+In credentials.py:
+- Save bot's email
+- Save bot email password
+- Save student's emails (You may write a script to automatically clean this up for you)
 
 #### Feel free to play around with the code and change it!
