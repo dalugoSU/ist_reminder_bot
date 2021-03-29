@@ -36,4 +36,4 @@ if __name__ == "__main__":
                 print("Invalid command! [s or p]: ")
                 ui_selection = input("Are you a student or Professor/TA [s: student; p: professor/TA]:  ")
 
-    begin_collection(ms_webhook=wh.WEBHOOK) # Go to webhook.py to save your webhook
+    begin_collection(ms_webhook=wh.WEBHOOK_None) # Go to webhook.py to save your webhook
