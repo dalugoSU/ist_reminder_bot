@@ -21,14 +21,16 @@ if __name__ == "__main__":
                 try:
                     student_ui(student_obj=due_assignment)
                     break
-                except TypeError:
+                except TypeError as e:
+                    print(e)
                     print("Enter yes or quit to exit")
             elif ui_selection.lower() == "p":
                 try:
                     print("\nIf you have an MS Webhook to use every time, save it in webhook.py")
                     prof_ta_ui(p_obj=due_assignment, ms_webhook=ms_webhook)
                     break
-                except TypeError:
+                except TypeError as e:
+                    print(e)
                     print("Enter yes or quit to exit")
             else:
                 print("Invalid command! [s or p]: ")

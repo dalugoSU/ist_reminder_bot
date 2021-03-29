@@ -4,6 +4,8 @@ class AssignmentCollector:
     import requests
     import pymsteams
     import smtplib
+    import time
+    from win10toast import ToastNotifier
     import credentials as cd
 
     def get_class_assignments(self) -> list:
@@ -12,7 +14,7 @@ class AssignmentCollector:
         :return: list - 2D array. [[dueDate[0], dueTime[1], gradeBook[2], points[3], tool[4], whatsDue[5]]]
         """
 
-        response = self.requests.get("http://ist256.com/syllabus/#course-schedule")  # Pulls website
+        response = self.requests.get("http://ist256.com/syllabus/#course-schedule")  # Pulls website IST 256
         soup = self.BeautifulSoup(response.content, 'html.parser')  # Parses website and extracts its contents
 
         assignments_table = soup.find(text='Date Due').find_parent(
@@ -33,7 +35,7 @@ class AssignmentCollector:
         # Create an instance of datetime
         today = self.datetime.datetime.today()
         date_current = f"{today.month}/{today.day}/{today.year}"  # Get the date in m/d/y form
-        date_tomorrow = f"{today.month}/{int(today.day) + 1}/{today.year}"
+        date_tomorrow = f"{today.month}/{int(today.day) + 1}/{today.year}"  # Check next day
 
         return date_current, date_tomorrow
 
@@ -45,56 +47,83 @@ class AssignmentCollector:
 
         table_titles = ["Due Date:", "Due Time:", "Grade Book:", "Points:", "Tools:", "What is Due:"]  # Column titles
         table = self.get_class_assignments()
-        date = self.get_date()
+        date_today, date_tomorrow = self.get_date()
+
         today_assignment = []
         tomorrow_assignment = []
 
         for row in range(0, len(table)):
-            if table[row][0] == date[0]:  # If Due Date from table matches today's date
+            if table[row][0] == date_today:  # If Due Date from table matches today's date
                 for row_element in range(0, len(table[row])):  # Go through each element in that assignment's list
                     today_assignment.append(f"{table_titles[row_element]} {table[row][row_element]}")
 
         for row in range(0, len(table)):
-            if table[row][0] == date[1]:  # If Due Date from table matches today's date
+            if table[row][0] == date_tomorrow:  # If Due Date from table matches today's date
                 for row_element in range(0, len(table[row])):  # Go through each element in that assignment's list
                     tomorrow_assignment.append(f"{table_titles[row_element]} {table[row][row_element]}")
 
         if not today_assignment and not tomorrow_assignment:
             return tuple('No Assignments Today! or Tomorrow!')  # There are no assignments for "today"
         elif not today_assignment and tomorrow_assignment:
-            return [], tomorrow_assignment
+            return ['Nothing'], tomorrow_assignment
         elif today_assignment and not tomorrow_assignment:
-            return today_assignment, []
+            return today_assignment, ['Nothing']
         else:
             return today_assignment, tomorrow_assignment
 
-    def print_assignments(self) -> None:
+    def print_assignments(self) -> bool:
 
         due_today, due_tomorrow = self.get_assignment()  # Assignments due "today"
 
-        if due_today:
-            print(f"\n-----Due today-----")
+        if due_today or due_tomorrow:
+            if due_today:
+                print(f"\n-----Due today-----")
 
-            for item in range(0, len(due_today)):
-                print(due_today[item])
-            print("")
+                for item in range(0, len(due_today)):
+                    print(due_today[item])
+                print("")
+            else:
+                print("Nothing due Today!\n")
+
+            if due_tomorrow:
+                print(f"\n-----Due Tomorrow:-----")
+                for item in range(0, len(due_tomorrow)):
+                    print(due_tomorrow[item])
+            else:
+                print("Nothing Due tomorrow! ")
+            return True
         else:
-            print("Nothing due Today!\n")
+            return False
 
-        if due_tomorrow:
-            print(f"\n-----Due Tomorrow:-----\n")
-            for item in range(0, len(due_tomorrow)):
-                print(due_today[item])
-        else:
-            print("Nothing Due tomorrow! ")
+    def create_reminder(self) -> None: # BETA IDEA - NOT PROPER
 
-        print(f"\nSee yah later!")
+        assignment_reminder, dump = self.get_assignment()
 
-    def create_reminder(self):
-        # TODO: Implement This
-        pass
+        year = assignment_reminder[0].split(" ")[2].split("/")[2]
+        month = assignment_reminder[0].split(" ")[2].split("/")[0]
+        day = assignment_reminder[0].split(" ")[2].split("/")[1]
+        hour = assignment_reminder[1].split(" ")[2].split(":")[0]
 
-    def push_to_ms(self, webhook: str, card_title: str = None):
+        message = ""
+
+        for element in range(0, len(assignment_reminder)):
+            message += f"\n{assignment_reminder[element]}\n"
+
+        right_now = self.datetime.datetime.now()
+        future = self.datetime.datetime(year=int(year),
+                                        month=int(month),
+                                        day=int(day),
+                                        hour=int(hour))
+
+        reminder_in = (right_now - future).total_seconds()
+
+        notification = self.ToastNotifier()
+        self.time.sleep(reminder_in)
+        notification.show_toast(title="IST 256 Assignment Reminder :D",
+                                msg=message,
+                                duration=5)
+
+    def push_to_ms(self, webhook: str, card_title: str = None) -> None:
         """
         function to push today's assignments to an MS teams Team.
         :return: Void/No returns
@@ -122,7 +151,7 @@ class AssignmentCollector:
 
         print("Your Reminder Has Been Posted :D")
 
-    def push_email(self):
+    def push_email(self) -> None:
 
         server = self.smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()

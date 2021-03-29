@@ -45,14 +45,26 @@ def webhook_not_present(webhook_obj):
 
 
 # If student is using app, capabilities to push to MS etc.. are not used.
-def student_ui(student_obj: object) -> None:
+def student_ui(student_obj: object) -> bool:
     user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
     if user_choice.lower() == "quit":
         print("See you later! ")
+
     if user_choice.lower() == "yes":
-        student_obj.print_assignments()
+        check = student_obj.print_assignments()
+        if check: # Checks for assignments. If none then no reminder needed
+            remind = input("\nWould you like to set a reminder? [yes or no]: ")
+            if remind.lower() == 'yes':
+                print("\nCreating Timer...")
+                student_obj.create_reminder()
+                # print("Reminder Has been created :D\nSee you later!")
+                return False
+            else:
+                print("See you later! ")
+                return False
     else:
         print("See you later! ")
+        return False
 
 
 # If professor/TA using app, all capabilities unlocked
