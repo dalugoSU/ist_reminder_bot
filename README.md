@@ -1,6 +1,8 @@
 ### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams and push to emails as well!
 
-Latest update: 3/28/21
+Latest update: 3/29/21
+
+clone this project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
 
 Dependencies needed:
 - bs4
