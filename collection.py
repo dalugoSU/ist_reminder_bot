@@ -65,9 +65,9 @@ class AssignmentCollector:
         if not today_assignment and not tomorrow_assignment:
             return tuple('No Assignments Today! or Tomorrow!')  # There are no assignments for "today"
         elif not today_assignment and tomorrow_assignment:
-            return ['Nothing'], tomorrow_assignment
+            return [], tomorrow_assignment
         elif today_assignment and not tomorrow_assignment:
-            return today_assignment, ['Nothing']
+            return today_assignment, []
         else:
             return today_assignment, tomorrow_assignment
 
@@ -115,9 +115,10 @@ class AssignmentCollector:
                                         day=int(day),
                                         hour=int(hour))
 
-        reminder_in = (right_now - future).total_seconds()
+        reminder_in = abs((right_now - future).total_seconds())
 
         notification = self.ToastNotifier()
+        print("Created Reminder! See Yah later! ")
         self.time.sleep(reminder_in)
         notification.show_toast(title="IST 256 Assignment Reminder :D",
                                 msg=message,
