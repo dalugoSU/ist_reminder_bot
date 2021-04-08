@@ -63,7 +63,7 @@ class AssignmentCollector:
                     tomorrow_assignment.append(f"{table_titles[row_element]} {table[row][row_element]}")
 
         if not today_assignment and not tomorrow_assignment:
-            return tuple('No Assignments Today! or Tomorrow!')  # There are no assignments for "today"
+            return [], []  # There are no assignments for "today"
         elif not today_assignment and tomorrow_assignment:
             return [], tomorrow_assignment
         elif today_assignment and not tomorrow_assignment:
@@ -93,6 +93,7 @@ class AssignmentCollector:
                 print("Nothing Due tomorrow! ")
             return True
         else:
+            print("\nNothing due today or tomorrow!\n")
             return False
 
     def create_reminder(self) -> None: # BETA IDEA - NOT PROPER
