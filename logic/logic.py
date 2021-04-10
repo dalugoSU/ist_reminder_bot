@@ -4,11 +4,11 @@
 import requests
 import smtplib
 from pyfiglet import Figlet
-from collection import AssignmentCollector
+from collector.collection import AssignmentCollector
 
 
 # If webhook is saved, this function executes
-def webhook_present(ms_webhook, due_assignment):
+def webhook_present(ms_webhook: str, due_assignment: object) -> None:
     valid = False
     while not valid:
         try:
@@ -25,7 +25,7 @@ def webhook_present(ms_webhook, due_assignment):
 
 
 # Function to handle pushing to MS if webhook is not saved
-def webhook_not_present(webhook_obj):
+def webhook_not_present(webhook_obj: object) -> None:
     valid = False
     while not valid:
         ms_webhook = input("Enter MS Teams webhook: ")
@@ -68,7 +68,7 @@ def student_ui(student_obj: object) -> bool:
 
 
 # If professor/TA using app, all capabilities unlocked
-def prof_ta_ui(p_obj, ms_webhook=None):
+def prof_ta_ui(p_obj: object, ms_webhook: str =None) -> None:
     user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
     while True:
         if user_choice == 'quit':
@@ -117,8 +117,7 @@ def prof_ta_ui(p_obj, ms_webhook=None):
         print("\nSee you later! ")
 
 
-def begin_collection(
-        ms_webhook: str = None) -> None:  # ms_webhook = None in case you do not have one saved in webhook.py
+def begin_collection(ms_webhook: str = None) -> None:  # ms_webhook = None in case you do not have one saved in webhook.py
 
     due_assignment = AssignmentCollector()  # Create instance of Assignment Collector Class
 

@@ -6,7 +6,10 @@ class AssignmentCollector:
     import smtplib
     import time
     from win10toast import ToastNotifier
-    import credentials as cd
+    import logic.credentials as cd
+
+    def __init__(self):
+        pass
 
     def get_class_assignments(self) -> list:
         """
@@ -83,7 +86,7 @@ class AssignmentCollector:
                     print(due_today[item])
                 print("")
             else:
-                print("Nothing due Today!\n")
+                print("\nNothing due Today!\n")
 
             if due_tomorrow:
                 print(f"\n-----Due Tomorrow:-----")
@@ -186,3 +189,6 @@ class AssignmentCollector:
             server.quit()
         except self.smtplib.SMTPAuthenticationError:
             print("\nCould not Establish Connection\nEmail or Password Incorrect")
+
+    def __del__(self):
+        pass
