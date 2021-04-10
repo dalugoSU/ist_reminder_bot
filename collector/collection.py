@@ -75,6 +75,10 @@ class AssignmentCollector:
             return today_assignment, tomorrow_assignment
 
     def print_assignments(self) -> bool:
+        """
+        function to 'pretty print' assignments due either today or tomorrow
+        :return: true if anything is due today or tomorrow, false if nothing due
+        """
 
         due_today, due_tomorrow = self.get_assignment()  # Assignments due "today"
 
@@ -157,6 +161,11 @@ class AssignmentCollector:
         print("Your Reminder Has Been Posted :D")
 
     def push_email(self) -> None:
+        """
+        function to push assignments due today to emails
+        uses information is credentials.py
+        :return: none
+        """
 
         server = self.smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
@@ -190,5 +199,9 @@ class AssignmentCollector:
         except self.smtplib.SMTPAuthenticationError:
             print("\nCould not Establish Connection\nEmail or Password Incorrect")
 
-    def __del__(self):
-        pass
+    def __del__(self) -> None:
+        """
+        delete object
+        :return: None
+        """
+        print("")

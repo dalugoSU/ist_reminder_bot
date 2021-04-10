@@ -9,6 +9,12 @@ from collector.collection import AssignmentCollector
 
 # If webhook is saved, this function executes
 def webhook_present(ms_webhook: str, due_assignment: object) -> None:
+    """
+    checks if webhook is present then does the queries
+    :param ms_webhook: webhook in webhook.py is passed
+    :param due_assignment: AssignmentCollector object
+    :return: None
+    """
     valid = False
     while not valid:
         try:
@@ -46,6 +52,11 @@ def webhook_not_present(webhook_obj: object) -> None:
 
 # If student is using app, capabilities to push to MS etc.. are not used.
 def student_ui(student_obj: object) -> bool:
+    """
+    Actions if user selects 'student' in screen
+    :param student_obj: AssignmentCollector object
+    :return: bool
+    """
     user_choice: str = input("Check Today's Assignments [yes or quit to exit]: ")
     if user_choice.lower() == "quit":
         print("See you later! ")
