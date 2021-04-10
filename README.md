@@ -38,7 +38,7 @@ When you select:
 If you want to use the same webhook everytime in case you would like to push open the main.py file and inside begin_collection() paste in your webhook inside quotes and save. Now everytime you select to push to microsoft teams it will use that webhook.
 
 Example of reminder card pushed to Microsoft Teams after pushing reminder:
-![Alt text](card_example.jpg?raw=true "Example Card")
+![Alt text](examples/card_example.jpg?raw=true "Example Card")
 
 ### How to get a webhook:
 1) Go to the teams you would like to push these assignments to
@@ -53,7 +53,7 @@ You may also send your reminder by email to all of your students at once!
 
 Example of email sent by bot:
 
-![Alt text](email_example.JPG?raw=true "Example email")
+![Alt text](examples/email_example.JPG?raw=true "Example email")
 
 
 ### How to set emailing up:
