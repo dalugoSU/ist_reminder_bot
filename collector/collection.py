@@ -1,11 +1,18 @@
-class AssignmentCollector:
-    from bs4 import BeautifulSoup
-    import datetime
-    import requests
-    import pymsteams
-    import smtplib
-    from logic import credentials as cd
+import pickle
+import os.path
+from datetime import datetime, timedelta
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from bs4 import BeautifulSoup
+import datetime
+import requests
+import pymsteams
+import smtplib
+from logic import credentials as cd
 
+
+class AssignmentCollector:
 
     def get_class_assignments(self) -> list:
         """
@@ -13,8 +20,8 @@ class AssignmentCollector:
         :return: list - 2D array. [[dueDate[0], dueTime[1], gradeBook[2], points[3], tool[4], whatsDue[5]]]
         """
 
-        response = self.requests.get("http://ist256.com/syllabus/#course-schedule")  # Pulls website IST 256
-        soup = self.BeautifulSoup(response.content, 'html.parser')  # Parses website and extracts its contents
+        response = requests.get("http://ist256.com/syllabus/#course-schedule")  # Pulls website IST 256
+        soup = BeautifulSoup(response.content, 'html.parser')  # Parses website and extracts its contents
 
         assignments_table = soup.find(text='Date Due').find_parent('table')  # Finds the due date table by matching its text with table tag
         assignments = []  # List that will hold lists of assignments
@@ -30,7 +37,7 @@ class AssignmentCollector:
         :return: return a string with date in format m/d/y
         """
         # Create an instance of datetime
-        today = self.datetime.datetime.today()
+        today = datetime.datetime.today()
         date_current = f"{today.month}/{today.day}/{today.year}"  # Get the date in m/d/y form
         date_tomorrow = f"{today.month}/{int(today.day) + 1}/{today.year}"  # Check next day
 
@@ -115,7 +122,7 @@ class AssignmentCollector:
         :return: Void/No returns
         """
         try:
-            connection = self.pymsteams.connectorcard(webhook)
+            connection = pymsteams.connectorcard(webhook)
             message = ""
 
             if cmd == 'today':
@@ -166,7 +173,7 @@ class AssignmentCollector:
         :return: none
         """
 
-        server = self.smtplib.SMTP("smtp.gmail.com", 587)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
         server.ehlo()
@@ -182,19 +189,21 @@ class AssignmentCollector:
             return
 
         try:
-            server.login(self.cd.email_credentials['email_from'], self.cd.email_credentials['password'])
+            server.login(cd.email_credentials['email_from'], cd.email_credentials['password'])
             connection = True
             if connection:
-                print("\nSuccessful Established Connection...")
+                print("Successful Established Connection...")
 
                 subject = f"Assignment Reminder! Due {command.capitalize()}!"
-                sender = self.cd.email_credentials['email_from']
-                recipients = self.cd.email_credentials['email_to']
-                message = "Hello IST 256 Student!\nThis is due today:\n"
+                sender = cd.email_credentials['email_from']
+                recipients = cd.email_credentials['email_to']
+                message = "Hello IST 256 Student\n\nThis is due today:\n"
 
 
                 for element in range(0, len(date)):
                     message += f"\n{date[element]}"
+                    if "What is Due:" in date[element]:
+                        message += f"\n-------------------"
 
                 message += "\n\nThank you!\n IST 256 - Reminder Bot"
 
@@ -204,5 +213,65 @@ class AssignmentCollector:
                 print(f"Email Sent to students!")
 
             server.quit()
-        except self.smtplib.SMTPAuthenticationError:
+        except smtplib.SMTPAuthenticationError:
             print("\nCould not Establish Connection\nEmail or Password Incorrect")
+
+
+    def create_event(self):
+        """
+        create a google calendar event reminder using google calendar API
+        :return: none
+        """
+
+        # If modifying these scopes, delete the file token.pickle.
+        SCOPES = ['https://www.googleapis.com/auth/calendar']
+
+        CREDENTIALS_FILE = 'YOUR CREDENTIALS PATH'
+        assignments_tomorrow = self.get_tomorrow()
+        message = ""
+
+        for element in range(0, len(assignments_tomorrow)):
+            if "Due Date:" in assignments_tomorrow[element]:
+                message += "\n---------------------\n"
+                message += f"\n{assignments_tomorrow[element]}\n"
+            else:
+                message += f"\n{assignments_tomorrow[element]}\n"
+
+        credentials = None
+        if os.path.exists('token.pickle'):
+            with open('token.pickle', 'rb') as token:
+                credentials = pickle.load(token)
+        # If there are no (valid) credentials available, let the user log in.
+        if not credentials or not credentials.valid:
+            if credentials and credentials.expired and credentials.refresh_token:
+                credentials.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    CREDENTIALS_FILE, SCOPES)
+                credentials = flow.run_local_server(port=0)
+
+            # Save the credentials for the next run
+            with open('token.pickle', 'wb') as token:
+                pickle.dump(credentials, token)
+
+        service = build('calendar', 'v3', credentials=credentials)
+
+
+        d = datetime.now().date()
+        tomorrow = datetime(d.year, d.month, d.day, 12) + timedelta(days=1)
+        start = tomorrow.isoformat()
+        end = (tomorrow + timedelta(hours=1)).isoformat()
+
+        event_result = service.events().insert(calendarId='primary',
+                                               body={
+                                                   "summary": f'Assignments Due {datetime(d.year, d.month, d.day) + timedelta(days=1)}',
+                                                   "description": f'{message}',
+                                                   "start": {"dateTime": start, "timeZone": 'US/Eastern'},
+                                                   "end": {"dateTime": end, "timeZone": 'US/Eastern'},
+                                               }
+                                               ).execute()
+
+        print("created event")
+        print("summary: ", event_result['summary'])
+        print("starts at: ", event_result['start']['dateTime'])
+        print("ends at: ", event_result['end']['dateTime'])

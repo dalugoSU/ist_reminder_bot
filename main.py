@@ -24,6 +24,7 @@ COMMANDS = {
     'alldue': 'show all assignments. q to exit, h for help',
     'pushms': 'push [today] or push [tomorrow] push assignments to ms teams',
     'pushe': 'pushe [today] or pushe [tomorrow] push assignments to email',
+    'setreminder': 'add tomorrow\'s homework reminder to google calendar (Needs API key)',
     'clear': 'clear screen'
 }
 
@@ -85,6 +86,8 @@ class CommandExecutor:
             self.__push_ms(arguments[0])
         elif command == 'pushe':
             self.__push_e(arguments[0])
+        elif command == 'setreminder':
+            self.__add_to_calendar()
         elif command == 'clear':
             self.__clear()
         else:
@@ -170,6 +173,14 @@ class CommandExecutor:
         try:
             self.collector.push_email(cmd=cmd)
         except EOFError:
+            return
+
+    def __add_to_calendar(self):
+        try:
+            print("Creating Reminder...")
+            self.collector.create_event()
+        except EOFError:
+            print("Something Went wrong...")
             return
 
 
