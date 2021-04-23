@@ -3,13 +3,6 @@
 Latest update: 4/23/21
 updates: Application is now an actual CLI application not linear.
 
-Features:
-- Paginator for alldue, duetoday and duetomorrow
-- continuous doesn't close after running a command
-- removal of unecessary typing; autofill
-- command validator
-- Push your assignments to MS teams (webhook saved in webhook.py inside logic folder or entered manually in CLI)
-- Push your assignments to emails (email credentials (from and to) saved in credentials.py inside logic folder)
 
 Commands:
 
@@ -22,6 +15,14 @@ Commands:
 - clear : clear screen
 
 ctrl + d to exit
+
+Features:
+- Paginator for alldue, duetoday and duetomorrow
+- continuous doesn't close after running a command
+- removal of unecessary typing; autofill
+- command validator
+- Push your assignments to MS teams (webhook saved in webhook.py inside logic folder or entered manually in CLI)
+- Push your assignments to emails (email credentials (from and to) saved in credentials.py inside logic folder)
 
 clone this project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
 
