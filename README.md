@@ -11,6 +11,7 @@ Commands:
 - duetomorrow : show assignments due tomorrow. q to exit, h for help
 - alldue : show all assignments. q to exit, h for help
 - pushms : push [today] or push [tomorrow] push assignments to ms teams
+- custom card titles for ms card
 - pushe : pushe [today] or pushe [tomorrow] push assignments to email
 - clear : clear screen
 
