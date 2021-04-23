@@ -13,6 +13,7 @@ Commands:
 - pushms : push [today] or push [tomorrow] push assignments to ms teams
 - custom card titles for ms card
 - pushe : pushe [today] or pushe [tomorrow] push assignments to email
+- setreminder: create a reminder of tomorrow's assingments using google's calendar API
 - clear : clear screen
 
 ctrl + d to exit
@@ -24,6 +25,7 @@ Features:
 - command validator
 - Push your assignments to MS teams (webhook saved in webhook.py inside logic folder or entered manually in CLI)
 - Push your assignments to emails (email credentials (from and to) saved in credentials.py inside logic folder)
+- Set reminders
 
 clone this project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
 
@@ -46,11 +48,26 @@ Steps to run program:
 - Open folder in command prompt
 - Type: python main.py
 
+### Setting up Google's Calendar API
+- Create a project in Google Developer Console
+- Add your email as an user
+- Get your API Key and Credentials
+- Download credentials json file, rename to something easier such as 'creds.json'
+- place that file in project folder and add path inside create_event() function inside the AssignmentCollector class
+
 ### For Students:
 #### The program will ask you if you want to see today's assignments:
 You can check 'today' or 'tomorrow' assignments
 - type duetoday -> you will see things due 'today'
 - type duetomorrow -> you will see things due 'tomorrow'
+
+#### Create A Google Calendar Reminder
+You can create a reminder by typing: setreminder
+This functionality uses google's calendar API. You need credentials.
+Refer Above on how to set up
+
+Example Google Reminder:
+![Alt text](examples/calendar_example.jpg?raw=true "Example Card")
 
 ### For TAs and Professors:
 #### Do you have one webhook you would like to use always?
