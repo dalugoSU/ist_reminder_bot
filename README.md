@@ -25,7 +25,7 @@ Features:
 - command validator
 - Push your assignments to MS teams (webhook saved in webhook.py inside logic folder or entered manually in CLI)
 - Push your assignments to emails (email credentials (from and to) saved in credentials.py inside logic folder)
-- Set reminders
+- Set reminders on your google calendar
 
 clone this project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
 
