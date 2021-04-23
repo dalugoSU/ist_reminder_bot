@@ -67,7 +67,7 @@ This functionality uses google's calendar API. You need credentials.
 Refer Above on how to set up
 
 Example Google Reminder:
-![Alt text](examples/calendar_example.jpg?raw=true "Example Card")
+![Alt text](examples/calendar_example.JPG?raw=true "Example Calendar")
 
 ### For TAs and Professors:
 #### Do you have one webhook you would like to use always?
