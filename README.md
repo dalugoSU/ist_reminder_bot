@@ -56,6 +56,10 @@ You can check 'today' or 'tomorrow' assignments
 
 If you want to use the same webhook everytime in case you would like to push open the webhook.py file and inside logic folder paste in your webhook inside quotes and save. Now everytime you select to pushms to microsoft teams it will use that webhook. Otherwise you will be prompted to input manually.
 
+### how to push assignments:
+- type: pushms today -> this will push 'today' assignments to ms teams
+- type: pushms tomorrow -> this will push 'tomorrow' assignments to ms teams
+
 Example of reminder card pushed to Microsoft Teams after pushing reminder:
 ![Alt text](examples/card_example.jpg?raw=true "Example Card")
 
@@ -74,6 +78,9 @@ Example of email sent by bot:
 
 ![Alt text](examples/email_example.JPG?raw=true "Example email")
 
+### how to push assignments:
+- type: pushe today -> this will push 'today' assignments to email recipients saved in file
+- type: pushe tomorrow -> this will push 'tomorrow' assignments to email recipients saved in file
 
 ### How to set emailing up:
 1) Go to your Google Account.
