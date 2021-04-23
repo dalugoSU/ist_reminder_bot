@@ -1,6 +1,29 @@
 ### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams and push to emails as well!
 
 Latest update: 4/23/21
+updates: Application is now an actual CLI application not linear.
+
+
+Commands:
+
+- help : usage of each command
+- duetoday : show assignments due today. q to exit, h for help
+- duetomorrow : show assignments due tomorrow. q to exit, h for help
+- alldue : show all assignments. q to exit, h for help
+- pushms : push [today] or push [tomorrow] push assignments to ms teams
+- custom card titles for ms card
+- pushe : pushe [today] or pushe [tomorrow] push assignments to email
+- clear : clear screen
+
+ctrl + d to exit
+
+Features:
+- Paginator for alldue, duetoday and duetomorrow
+- continuous doesn't close after running a command
+- removal of unecessary typing; autofill
+- command validator
+- Push your assignments to MS teams (webhook saved in webhook.py inside logic folder or entered manually in CLI)
+- Push your assignments to emails (email credentials (from and to) saved in credentials.py inside logic folder)
 
 clone this project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
 
@@ -14,7 +37,6 @@ Dependencies needed:
 
 If you are missing any of these you can install by typing:
 pip install -module name-
-
 
 Command Look:
 ![Alt text](examples/cli_example.JPG?raw=true "Example Command")
@@ -35,6 +57,10 @@ You can check 'today' or 'tomorrow' assignments
 
 If you want to use the same webhook everytime in case you would like to push open the webhook.py file and inside logic folder paste in your webhook inside quotes and save. Now everytime you select to pushms to microsoft teams it will use that webhook. Otherwise you will be prompted to input manually.
 
+### how to push assignments:
+- type: pushms today -> this will push 'today' assignments to ms teams
+- type: pushms tomorrow -> this will push 'tomorrow' assignments to ms teams
+
 Example of reminder card pushed to Microsoft Teams after pushing reminder:
 ![Alt text](examples/card_example.jpg?raw=true "Example Card")
 
@@ -53,6 +79,9 @@ Example of email sent by bot:
 
 ![Alt text](examples/email_example.JPG?raw=true "Example email")
 
+### how to push assignments:
+- type: pushe today -> this will push 'today' assignments to email recipients saved in file
+- type: pushe tomorrow -> this will push 'tomorrow' assignments to email recipients saved in file
 
 ### How to set emailing up:
 1) Go to your Google Account.
