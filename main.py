@@ -178,7 +178,11 @@ class CommandExecutor:
     def __add_to_calendar(self):
         try:
             print("Creating Reminder...")
-            self.collector.create_event()
+            reminder = self.collector.create_event()
+            if reminder:
+                print(reminder)
+            else:
+                reminder()
         except EOFError:
             print("Something Went wrong...")
             return

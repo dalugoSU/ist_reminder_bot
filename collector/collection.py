@@ -246,9 +246,12 @@ class AssignmentCollector:
             if credentials and credentials.expired and credentials.refresh_token:
                 credentials.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    CREDENTIALS_FILE, SCOPES)
-                credentials = flow.run_local_server(port=0)
+                try:
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        CREDENTIALS_FILE, SCOPES)
+                    credentials = flow.run_local_server(port=0)
+                except FileNotFoundError:
+                    return "Credentials File Path Wrong: Error Line 254: collection.py"
 
             # Save the credentials for the next run
             with open('token.pickle', 'wb') as token:
