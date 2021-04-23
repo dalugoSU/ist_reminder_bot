@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\collector\collection.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\logic.py">
           <value>
             <Attribute>
