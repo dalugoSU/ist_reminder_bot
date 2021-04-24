@@ -1,5 +1,6 @@
 import pickle
 import os.path
+import webbrowser
 from datetime import datetime, timedelta
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -166,13 +167,12 @@ class AssignmentCollector:
             print("Invalid Webhook")
             return False
 
-    def push_email(self, cmd) -> None:
+    def push_email(self, cmd: str) -> None:
         """
         function to push assignments due today to emails
         uses information is credentials.py
         :return: none
         """
-
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
@@ -222,7 +222,6 @@ class AssignmentCollector:
         create a google calendar event reminder using google calendar API
         :return: none
         """
-
         # If modifying these scopes, delete the file token.pickle.
         SCOPES = ['https://www.googleapis.com/auth/calendar']
 
@@ -278,3 +277,53 @@ class AssignmentCollector:
         print("summary: ", event_result['summary'])
         print("starts at: ", event_result['start']['dateTime'])
         print("ends at: ", event_result['end']['dateTime'])
+
+    def open_jupyter(self):
+        """
+        Open jupyter notebook
+        :return: None
+        """
+        try:
+            webbrowser.open("https://jupyterhub.ischool.syr.edu/")
+        except:
+            return "Something Went wrong... Line 287 open_jupyter()"
+
+    def open(self, command: str):
+        """
+        Open IST 256 used websites
+        :param command: target website
+        :return: None
+        """
+        try:
+            if command.lower() == 'blackboard':
+                webbrowser.open("https://blackboard.syr.edu")
+            elif command.lower() == 'polly':
+                webbrowser.open("https://poll.ist256.com")
+            elif command.lower() == 'zybook':
+                webbrowser.open("https://learn.zybooks.com")
+            else:
+                return "Command Not Available"
+        except:
+            return "Error in line 300. open()"
+
+    def get_grades(self):
+        """
+        Pull grade distribution from IST syllabus website
+        :return: None
+        """
+        response = requests.get("http://ist256.com/syllabus/#grading-scale-for-final-grade")  # Pulls website IST 256
+        soup_grades = BeautifulSoup(response.content, 'html.parser')
+
+        grades_table = soup_grades.find(text='Student Achievement').find_parent('table')  # Finds the due date table by matching its text with table tag
+        table_titles = ['Student Achievement', 'Total Points Earned', 'Registrar Grade', 'Grade Points']
+        grades = []  # List that will hold lists of assignments
+        nice_grades = []
+
+        for table_row in grades_table.find_all("tr")[1:]:
+            grades.append([text.get_text(strip=True) for text in table_row.find_all("td")])  # Create a list for each row
+
+        for row in range(0, len(grades)):
+            for row_element in range(0, len(grades[row])):  # Go through each element in that assignment's list
+                nice_grades.append(f"{table_titles[row_element]} {grades[row][row_element]}")
+
+        return nice_grades

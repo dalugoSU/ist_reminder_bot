@@ -1,4 +1,6 @@
 import argparse
+import time
+import os
 
 from pypager.pager import Pager
 from pypager.source import GeneratorSource
@@ -25,6 +27,9 @@ COMMANDS = {
     'pushms': 'push [today] or push [tomorrow] push assignments to ms teams',
     'pushe': 'pushe [today] or pushe [tomorrow] push assignments to email',
     'setreminder': 'add tomorrow\'s homework reminder to google calendar (Needs API key)',
+    'openjupyter': 'open jupyterHub in web browser',
+    'open': 'open [blackboard] [polly] [zybook] websites',
+    'grades': 'display grading scale',
     'clear': 'clear screen'
 }
 
@@ -37,7 +42,7 @@ def parse_cmd(raw_cmd) -> tuple:
     if len(raw_cmd.split(' ')) == 1:
         return command, []
     if command in ['pushms', 'pushe']:
-        # only one arg for these cmd s
+        # only one arg for these commands
         arguments = [raw_cmd.split(' ')[1].strip()]
         return command, arguments
 
@@ -88,6 +93,12 @@ class CommandExecutor:
             self.__push_e(arguments[0])
         elif command == 'setreminder':
             self.__add_to_calendar()
+        elif command == 'openjupyter':
+            self.__open_jupyter()
+        elif command == 'open':
+            self.__open(arguments[0])
+        elif command == 'grades':
+            self.__grades()
         elif command == 'clear':
             self.__clear()
         else:
@@ -97,6 +108,7 @@ class CommandExecutor:
     def __help(cls):
         with patch_stdout():
             print("")
+            print("Available Commands and Uses\n")
         for k, v in COMMANDS.items():
             with patch_stdout():
                 print('{} : {}'.format(k, v))
@@ -119,7 +131,10 @@ class CommandExecutor:
 
             p.add_source(GeneratorSource(send_assignments(assign)))
             p.run()
+        except TypeError: # This means nothing due today, returns None which can't be iterated
+            return
         except EOFError:
+            print("Something Went wrong...")
             return
 
     def __due_tomorrow(self):
@@ -134,7 +149,10 @@ class CommandExecutor:
 
             p.add_source(GeneratorSource(send_assignments(assign)))
             p.run()
+        except TypeError: # This means nothing due tomorrow, returns None which can't be iterated
+            return
         except EOFError:
+            print("Something Went wrong...")
             return
 
     def __all_due(self):
@@ -150,6 +168,7 @@ class CommandExecutor:
             p.run()
         except EOFError:
             print("Something went wrong...")
+            return
 
     def __push_ms(self, cmd):
         try:
@@ -168,11 +187,13 @@ class CommandExecutor:
                 print("")
         except EOFError:
             print("Something went wrong...")
+            return
 
     def __push_e(self, cmd):
         try:
             self.collector.push_email(cmd=cmd)
         except EOFError:
+            print("Something Went wrong...")
             return
 
     def __add_to_calendar(self):
@@ -183,6 +204,39 @@ class CommandExecutor:
                 print(reminder)
             else:
                 reminder()
+        except EOFError:
+            print("Something Went wrong...")
+            return
+
+    def __open_jupyter(self):
+        try:
+            print("Redirecting to jupyter...")
+            time.sleep(0.5)
+            self.collector.open_jupyter()
+        except EOFError:
+            print("Something Went wrong...")
+            return
+
+    def __open(self, command):
+        try:
+            print(f"Redirecting to {command}")
+            time.sleep(0.5)
+            self.collector.open(command)
+        except EOFError:
+            print("Something Went wrong...")
+            return
+
+    def __grades(self):
+        p = Pager()
+        assign = ["--------Grade Distribution--------\n"]
+        try:
+            for item in self.collector.get_grades():
+                assign.append(item)
+                if "Grade Points" in item:
+                    assign.append("\n-------------------")
+
+            p.add_source(GeneratorSource(send_assignments(assign)))
+            p.run()
         except EOFError:
             print("Something Went wrong...")
             return
