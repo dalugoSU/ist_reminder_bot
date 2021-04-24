@@ -41,7 +41,7 @@ def parse_cmd(raw_cmd) -> tuple:
     command = raw_cmd.split(' ')[0].strip()
     if len(raw_cmd.split(' ')) == 1:
         return command, []
-    if command in ['pushms', 'pushe']:
+    if command in ['pushms', 'pushe', 'open']:
         # only one arg for these commands
         arguments = [raw_cmd.split(' ')[1].strip()]
         return command, arguments
@@ -67,7 +67,7 @@ class CommandValidator(Validator):
         if command not in COMMANDS.keys():
             raise ValidationError(
                 message=f'{command} is not a valid command.')
-        if command in ['pushms', 'pushe']:
+        if command in ['pushms', 'pushe', 'open']:
             if len(args_list) != 1:
                 raise ValidationError(message='arg number mismatch expect 1.')
 
@@ -217,11 +217,14 @@ class CommandExecutor:
             print("Something Went wrong...")
             return
 
-    def __open(self, command):
+    def __open(self, command: str):
+        if command.lower() not in ['blackboard', 'polly', 'zybook']:
+            print("Location not supported.\nSupported locations: blackboard, polly, zybook")
+            return
         try:
-            print(f"Redirecting to {command}")
+            print(f"Redirecting to {command.lower()}")
             time.sleep(0.5)
-            self.collector.open(command)
+            self.collector.open(command.lower())
         except EOFError:
             print("Something Went wrong...")
             return
