@@ -1,8 +1,8 @@
 ### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams and push to emails as well!
 
-Latest update: 4/23/21
-updates: Application is now an actual CLI application not linear.
+Latest update: 4/24/21
 
+updates: New commands (openjupyter, open, and grades); bug fixes
 
 Commands:
 
@@ -11,21 +11,23 @@ Commands:
 - duetomorrow : show assignments due tomorrow. q to exit, h for help
 - alldue : show all assignments. q to exit, h for help
 - pushms : push [today] or push [tomorrow] push assignments to ms teams
-- custom card titles for ms card
 - pushe : pushe [today] or pushe [tomorrow] push assignments to email
-- setreminder: create a reminder of tomorrow's assingments using google's calendar API
+- setreminder : add tomorrow's homework reminder to google calendar (Needs API key)
+- openjupyter : open jupyterHub in web browser
+- open : open [blackboard] [polly] [zybook] websites
+- grades : display grading scale
 - clear : clear screen
-
-ctrl + d to exit
+- ctrl + d to exit
 
 Features:
-- Paginator for alldue, duetoday and duetomorrow
+- Paginator for alldue, duetoday, grades and duetomorrow
 - continuous doesn't close after running a command
 - removal of unecessary typing; autofill
 - command validator
 - Push your assignments to MS teams (webhook saved in webhook.py inside logic folder or entered manually in CLI)
 - Push your assignments to emails (email credentials (from and to) saved in credentials.py inside logic folder)
 - Set reminders on your google calendar
+- open jupyter, blackboard, polly and zybook directly from CLI
 
 clone this project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
 
