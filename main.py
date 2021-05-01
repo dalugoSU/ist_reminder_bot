@@ -1,6 +1,5 @@
 import argparse
 import time
-import os
 
 from pypager.pager import Pager
 from pypager.source import GeneratorSource
@@ -117,7 +116,10 @@ class CommandExecutor:
 
     @classmethod
     def __clear(cls):
-        clear()
+        try:
+            clear()
+        except:
+            print("Something went wrong... clear() 122 main.py")
 
     def __due_today(self):
         assign = ["--------Due Today--------\n"]
@@ -203,7 +205,7 @@ class CommandExecutor:
             if reminder:
                 print(reminder)
             else:
-                reminder()
+                return
         except EOFError:
             print("Something Went wrong...")
             return

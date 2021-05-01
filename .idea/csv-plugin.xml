@@ -17,7 +17,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\installation.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\logic.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\logic\credentials.py">
           <value>
             <Attribute>
               <option name="separator" value=":" />

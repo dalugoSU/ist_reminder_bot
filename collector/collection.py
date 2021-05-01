@@ -1,15 +1,15 @@
 import pickle
 import os.path
 import webbrowser
+import requests
+import pymsteams
+import smtplib
+
 from datetime import datetime, timedelta
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from bs4 import BeautifulSoup
-import datetime
-import requests
-import pymsteams
-import smtplib
 from logic import credentials as cd
 
 
@@ -38,7 +38,7 @@ class AssignmentCollector:
         :return: return a string with date in format m/d/y
         """
         # Create an instance of datetime
-        today = datetime.datetime.today()
+        today = datetime.today()
         date_current = f"{today.month}/{today.day}/{today.year}"  # Get the date in m/d/y form
         date_tomorrow = f"{today.month}/{int(today.day) + 1}/{today.year}"  # Check next day
 
@@ -95,7 +95,7 @@ class AssignmentCollector:
             if due_today:
                 return due_today
             else:
-                print("\nNothing due Today!\n")
+                print("Nothing due Today!")
         elif cmd == 'tomorrow':
             due_tomorrow = self.get_tomorrow()
             if due_tomorrow:
@@ -124,16 +124,15 @@ class AssignmentCollector:
         """
         try:
             connection = pymsteams.connectorcard(webhook)
+            if card_title:
+                connection.title(card_title)
+            else:
+                connection.title("IMPORTANT - ASSIGNMENT REMINDER!")
             message = ""
 
             if cmd == 'today':
                 due_today = self.get_today()
                 if due_today:
-                    if card_title:
-                        connection.title(card_title)
-                    else:
-                        connection.title("IMPORTANT - ASSIGNMENT REMINDER!")
-
                     for element in range(0, len(due_today)):
                         if "Due Date:" in due_today[element]:
                             message += "\n---------------------\n"
@@ -141,15 +140,10 @@ class AssignmentCollector:
                         else:
                             message += f"\n{due_today[element]}\n"
                 else:
-                    message = "Nothing Due Today! "
+                    message = "Nothing Due Today!"
             elif cmd == 'tomorrow':
                 due_tomorrow = self.get_tomorrow()
                 if due_tomorrow:
-                    if card_title:
-                        connection.title(card_title)
-                    else:
-                        connection.title("IMPORTANT - ASSIGNMENT REMINDER!")
-
                     for element in range(0, len(due_tomorrow)):
                         if "Due Date:" in due_tomorrow[element]:
                             message += "\n---------------------\n"
@@ -197,13 +191,16 @@ class AssignmentCollector:
                 subject = f"Assignment Reminder! Due {command.capitalize()}!"
                 sender = cd.email_credentials['email_from']
                 recipients = cd.email_credentials['email_to']
-                message = "Hello IST 256 Student\n\nThis is due today:\n"
+                message = "Hello IST 256 Student\n\n"
 
-
-                for element in range(0, len(date)):
-                    message += f"\n{date[element]}"
-                    if "What is Due:" in date[element]:
-                        message += f"\n-------------------"
+                if date:
+                    message += "This is due today:\n"
+                    for element in range(0, len(date)):
+                        message += f"\n{date[element]}"
+                        if "What is Due:" in date[element]:
+                            message += f"\n-------------------"
+                else:
+                    message += f"Nothing due {command.capitalize()}"
 
                 message += "\n\nThank you!\n IST 256 - Reminder Bot"
 
@@ -225,16 +222,18 @@ class AssignmentCollector:
         # If modifying these scopes, delete the file token.pickle.
         SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-        CREDENTIALS_FILE = 'YOUR CREDENTIALS PATH'
+        CREDENTIALS_FILE = 'GOOGLE API CREDENTIALS JSON FILE PATH'
         assignments_tomorrow = self.get_tomorrow()
+        if not assignments_tomorrow:
+            return "Nothing Due Tomorrow, Nothing needed to remind"
         message = ""
 
         for element in range(0, len(assignments_tomorrow)):
             if "Due Date:" in assignments_tomorrow[element]:
-                message += "\n---------------------\n"
-                message += f"\n{assignments_tomorrow[element]}\n"
+                message += "---------------------\n"
+                message += f"{assignments_tomorrow[element]}\n"
             else:
-                message += f"\n{assignments_tomorrow[element]}\n"
+                message += f"{assignments_tomorrow[element]}\n"
 
         credentials = None
         if os.path.exists('token.pickle'):
@@ -275,6 +274,7 @@ class AssignmentCollector:
 
         print("created event")
         print("summary: ", event_result['summary'])
+        print("Description:", event_result['description'])
         print("starts at: ", event_result['start']['dateTime'])
         print("ends at: ", event_result['end']['dateTime'])
 
