@@ -1,8 +1,22 @@
 ### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams and push to emails as well!
 
-Latest update: 4/24/21
+### Set Up:
+- Clone/download project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
+- Type: python installation.py (This will install all required packages to set up CLI)
+- Type: python main.py (To run program)
+- Enjoy :D
 
-updates: New commands (openjupyter, open, and grades); bug fixes
+Optional:
+- If you have a webhook for MS Teams: go in webhook.py (inside the logic folder) and paste your webhook in a string to the variable webhook currently set to None
+- If you have credentiasl for email bot: go in credentials.py (inside the logic folder) and paste your email credentials and recipients in the defined dict
+- If you have credentials for google calendar API: go in creds.json and delete current code and paste your credentials, then go in collection.py (inside collector folder) and go to line 225 and paste your creds.json file path.
+
+Latest update: 5/1/21
+
+updates: 
+
+5/1 - installation.py to set up CLI (installs required packages), bug fixes, code refactoring
+4/21 - New commands (openjupyter, open, and grades); bug fixes
 
 Commands:
 
@@ -29,18 +43,6 @@ Features:
 - Set reminders on your google calendar
 - open jupyter, blackboard, polly and zybook directly from CLI
 
-clone this project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
-
-Dependencies needed:
-- pypager
-- bs4
-- datetime
-- requests
-- pymsteams
-- pyfiglet
-
-If you are missing any of these you can install by typing:
-pip install -module name-
 
 Command Look:
 
