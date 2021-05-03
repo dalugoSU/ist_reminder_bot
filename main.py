@@ -209,6 +209,9 @@ class CommandExecutor:
         except EOFError:
             print("Something Went wrong...")
             return
+        except:
+            print("Credentials File Missing/Wrong...")
+            return
 
     def __open_jupyter(self):
         try:
