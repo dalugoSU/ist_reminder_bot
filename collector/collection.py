@@ -161,7 +161,7 @@ class AssignmentCollector:
             print("Invalid Webhook")
             return False
 
-    def push_email(self, cmd: str) -> None:
+    def push_email(self, cmd: str):
         """
         function to push assignments due today to emails
         uses information is credentials.py
@@ -180,7 +180,7 @@ class AssignmentCollector:
             date = self.get_tomorrow()
         else:
             print("Command Not Valid")
-            return
+            return False
 
         try:
             server.login(cd.email_credentials['email_from'], cd.email_credentials['password'])
