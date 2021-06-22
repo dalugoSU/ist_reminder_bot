@@ -1,16 +1,18 @@
 ### Check if you have any Assignments due for IST 256. If you are a TA or Professor you can also push these reminders to your MS Teams and push to emails as well!
 
 ### Set Up:
+```
 - Clone/download project: git clone https://github.com/dalugoSU/ist_reminder_bot.git
 - Type: python installation.py (This will install all required packages to set up CLI)
 - Type: python main.py (To run program)
 - Enjoy :D
-
+```
 Optional:
+```
 - If you have a webhook for MS Teams: go in webhook.py (inside the logic folder) and paste your webhook in a string to the variable webhook currently set to None
 - If you have credentiasl for email bot: go in credentials.py (inside the logic folder) and paste your email credentials and recipients in the defined dict
 - If you have credentials for google calendar API: go in creds.json and delete current code and paste your credentials, then go in collection.py (inside collector folder) and go to line 225 and paste your creds.json file path.
-
+```
 Latest update: 5/1/21
 
 updates: 
@@ -19,7 +21,7 @@ updates:
 4/21 - New commands (openjupyter, open, and grades); bug fixes
 
 Commands:
-
+```
 - help : usage of each command
 - duetoday : show assignments due today. q to exit, h for help
 - duetomorrow : show assignments due tomorrow. q to exit, h for help
@@ -32,8 +34,9 @@ Commands:
 - grades : display grading scale
 - clear : clear screen
 - ctrl + d to exit
-
+```
 Features:
+```
 - Paginator for alldue, duetoday, grades and duetomorrow
 - continuous doesn't close after running a command
 - removal of unecessary typing; autofill
@@ -42,23 +45,28 @@ Features:
 - Push your assignments to emails (email credentials (from and to) saved in credentials.py inside logic folder)
 - Set reminders on your google calendar
 - open jupyter, blackboard, polly and zybook directly from CLI
-
+```
 
 Command Look:
 
 ![Alt text](examples/cli_example.JPG?raw=true "Example Command")
 
 Steps to run program:
+```
 - Download zip file and extract folder
 - Open folder in command prompt
+- Type python installation.py
 - Type: python main.py
+```
 
 ### Setting up Google's Calendar API
+```
 - Create a project in Google Developer Console
 - Add your email as an user
 - Get your API Key and Credentials
 - Download credentials json file, rename to something easier such as 'creds.json'
 - place that file in project folder and add path inside create_event() function inside the AssignmentCollector class
+```
 
 ### For Students:
 #### The program will ask you if you want to see today's assignments:
@@ -107,6 +115,7 @@ Example of email sent by bot:
 - type: pushe tomorrow -> this will push 'tomorrow' assignments to email recipients saved in file
 
 ### How to set emailing up:
+```
 1) Go to your Google Account.
 2) Select Security.
 3) Under "Signing in to Google," select App Passwords. You may need to sign in. If you don’t have this option, it might be because:
@@ -117,12 +126,15 @@ Example of email sent by bot:
 4) At the bottom, choose Select app and choose the app you using and then Select device and choose the device you’re using and then Generate.
 5) Follow the instructions to enter the App Password. The App Password is the 16-character code in the yellow bar on your device.
 6) Tap Done.
+```
 
 If you are all Professors/TAs for IST 256 you can all share one single bot email to use, or you may use your personal emails.
 
 In credentials.py:
+```
 - Save bot's email
 - Save bot email password
 - Save student's emails (You may write a script to automatically clean this up for you)
+```
 
 #### Feel free to play around with the code and change it!
