@@ -103,8 +103,8 @@ class CommandExecutor:
         else:
             print("Command not available!")
 
-    @classmethod
-    def __help(cls):
+    @staticmethod
+    def __help():
         with patch_stdout():
             print("")
             print("Available Commands and Uses\n")
@@ -114,8 +114,8 @@ class CommandExecutor:
         with patch_stdout():
             print("")
 
-    @classmethod
-    def __clear(cls):
+    @staticmethod
+    def __clear():
         try:
             clear()
         except:

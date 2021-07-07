@@ -11,16 +11,17 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from bs4 import BeautifulSoup
 from logic import credentials as cd
+from exceptions.exceptions import InvalidWebhookError
 
 
 class AssignmentCollector:
 
-    def get_class_assignments(self) -> list:
+    @staticmethod
+    def get_class_assignments() -> list:
         """
         Gets table from IST Website and creates a 2D list array of due material.
         :return: list - 2D array. [[dueDate[0], dueTime[1], gradeBook[2], points[3], tool[4], whatsDue[5]]]
         """
-
         response = requests.get("http://ist256.com/syllabus/#course-schedule")  # Pulls website IST 256
         soup = BeautifulSoup(response.content, 'html.parser')  # Parses website and extracts its contents
 
@@ -32,7 +33,8 @@ class AssignmentCollector:
 
         return assignments  # Return 2D array of assignments and due dates
 
-    def get_date(self):
+    @staticmethod
+    def get_date():
         """
         Function that gets today's date
         :return: return a string with date in format m/d/y
@@ -157,7 +159,7 @@ class AssignmentCollector:
             connection.send()
 
             print("Your Reminder Has Been Posted :D")
-        except:
+        except requests.exceptions.MissingSchema:
             print("Invalid Webhook")
             return False
 
@@ -278,7 +280,8 @@ class AssignmentCollector:
         print("starts at: ", event_result['start']['dateTime'])
         print("ends at: ", event_result['end']['dateTime'])
 
-    def open_jupyter(self):
+    @staticmethod
+    def open_jupyter():
         """
         Open jupyter notebook
         :return: None
@@ -288,7 +291,8 @@ class AssignmentCollector:
         except:
             return "Something Went wrong... Line 287 open_jupyter()"
 
-    def open(self, command: str):
+    @staticmethod
+    def open(command: str):
         """
         Open IST 256 used websites
         :param command: target website
@@ -306,7 +310,8 @@ class AssignmentCollector:
         except:
             return "Error in line 300. open()"
 
-    def get_grades(self):
+    @staticmethod
+    def get_grades():
         """
         Pull grade distribution from IST syllabus website
         :return: None
